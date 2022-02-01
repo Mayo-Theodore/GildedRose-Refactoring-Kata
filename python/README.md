@@ -2,7 +2,7 @@
 
 This is a tech test which I have completed in order to improve my ability to read, refactor and extend legacy code. 
 
-This project was completed using Python, and the tests were written using Pytest.
+Technologies: This project was completed using Python, and the tests were written using Pytest.
 
 ## User Stories
 
