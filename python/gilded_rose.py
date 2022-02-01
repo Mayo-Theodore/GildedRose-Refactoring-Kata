@@ -17,32 +17,36 @@ class GildedRose(object):
     def update_quality(self):
         for item in self.items:
 
+            '''Constants'''
+            QUALITY_MAX = 50
+            QUALITY_MIN = 0
+
             '''Check items meet quality requirements'''
-            if 0 < item.quality > 50:
+            if QUALITY_MIN < item.quality > QUALITY_MAX:
                 raise QualityControl("Sorry an item's quality must be between 0 and 50")
 
             '''Update item quality'''
             if "Aged Brie" not in item.name and "Sulfuras" not in item.name and "Backstage" not in item.name:
-                if item.sell_in < 0 or "Conjured" in item.name:
+                if "Conjured" in item.name or item.sell_in < 0:
                     item.quality -= 2
                 elif item.sell_in >= 0:
                     item.quality -= 1
-                if item.quality < 0:
-                    item.quality = 0
+                if item.quality < QUALITY_MIN:
+                    item.quality = QUALITY_MIN
 
             '''Aged Brie quality'''
             if "Aged Brie" in item.name:
-                if item.quality == 50:
+                if item.quality == QUALITY_MAX:
                     item.quality = item.quality
-                elif item.quality < 50:
+                elif item.quality < QUALITY_MAX:
                     item.quality += 1 
 
-            '''Update Sulfuras quality '''
-            if "Sulfuras" in item.name and 0 < item.quality > 50:
+            '''Sulfuras quality '''
+            if "Sulfuras" in item.name and QUALITY_MIN < item.quality > QUALITY_MAX:
                  item.quality = item.quality
 
             '''Backstage passes quality '''
-            if "Backstage" in item.name and item.quality < 50:
+            if "Backstage" in item.name and item.quality < QUALITY_MAX:
                 if item.sell_in >= 15:
                     item.quality += 1
                 if 10 <= item.sell_in < 15:
@@ -50,55 +54,12 @@ class GildedRose(object):
                 if 5 <= item.sell_in < 10:
                     item.quality += 3
                 if item.sell_in <= 0:
-                    item.quality = 0
-            elif "Backstage" in item.name and item.quality >= 50:
-                item.quality = 50
+                    item.quality = QUALITY_MIN
+            elif "Backstage" in item.name and item.quality >= QUALITY_MAX:
+                item.quality = QUALITY_MAX
             
-            '''Update items sell_in'''
+            '''Sell_in'''
             if "Sulfuras" in item.name:
                 item.sell_in = None
             else:
                 item.sell_in -= 1
-                
-           
-          
-                            
-            
-
-            
-
-            
-
-
-    # def update_quality(self):
-    #     for item in self.items:
-    #         if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-    #             if item.quality > 0:
-    #                 if item.name != "Sulfuras, Hand of Ragnaros":
-    #                     item.quality = item.quality - 1
-    #         else:
-    #             if item.quality < 50:
-    #                 item.quality = item.quality + 1
-    #                 # if item.name == "Backstage passes to a TAFKAL80ETC concert":
-    #                 if "Backstage" in item.name:
-    #                     if item.sell_in < 11:
-    #                         if item.quality < 50:
-    #                             item.quality = item.quality + 1
-    #                     if item.sell_in < 6:
-    #                         if item.quality < 50:
-    #                             item.quality = item.quality + 1
-    #         if item.name != "Sulfuras, Hand of Ragnaros":
-    #             item.sell_in = item.sell_in - 1 #refactor to item.sell_in -= 1
-    #         if item.sell_in < 0:
-    #             if item.name != "Aged Brie":
-    #                 if item.name != "Backstage passes to a TAFKAL80ETC concert":
-    #                     if item.quality > 0:
-    #                         if item.name != "Sulfuras, Hand of Ragnaros":
-    #                             item.quality = item.quality - 1
-    #                 else:
-    #                     item.quality = item.quality - item.quality 
-    #             else:
-    #                 if item.quality < 50:
-    #                     item.quality = item.quality + 1
-
-

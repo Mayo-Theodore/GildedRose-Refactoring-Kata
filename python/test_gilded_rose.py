@@ -56,7 +56,6 @@ def test_quality_decreases_faster_after_sell_by():
     assert gilded.items[1].quality == 19
     assert gilded.items[2].quality == 19
 
-
 def test_store_item_with_wrong_quality():
     '''Tests that items that fall outside the quality requirements get rejected '''
     with pytest.raises(QualityControl):
@@ -88,7 +87,6 @@ def test_aged_brie_increases_quality():
     gilded.update_quality()
     assert gilded.items[0].quality == 50
     assert gilded.items[1].quality == 1
-
 
 def test_sulfuras_quality():
     '''Tests sulfuras quality does not decrease'''
@@ -132,15 +130,3 @@ def test_conjured_quality():
     gilded.update_quality()
     assert gilded.items[0].quality == 4
     assert gilded.items[1].quality == 19
-
-
-
-
-
-
-
-
-
-
-
-
