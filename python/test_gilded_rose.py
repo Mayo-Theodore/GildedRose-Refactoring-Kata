@@ -33,6 +33,13 @@ def gilded_rose(new_list_of_items):
     '''Returns an instance of GildedRose, with some items stored'''
     return GildedRose(new_list_of_items)
 
+def test_store_item_with_wrong_quality():
+    '''Tests that items that fall outside the quality requirements get rejected '''
+    with pytest.raises(QualityControl):
+        items = [Item(name="Aged Brie", sell_in=2, quality=51), Item(name="Aged Brie", sell_in=2, quality=-1), Item(name="Sulfuras, Hand of Ragnaros", sell_in=-1, quality=-5)]
+        gilded = GildedRose(items)
+        gilded.update_quality()
+
 def test_items_in_gilded_rose(gilded_rose, new_list_of_items):
     '''Tests items are stored and accessible in gilded rose instance'''
     assert gilded_rose.items == new_list_of_items
@@ -55,13 +62,6 @@ def test_quality_decreases_faster_after_sell_by():
     assert gilded.items[0].quality == 18
     assert gilded.items[1].quality == 19
     assert gilded.items[2].quality == 19
-
-def test_store_item_with_wrong_quality():
-    '''Tests that items that fall outside the quality requirements get rejected '''
-    with pytest.raises(QualityControl):
-        items = [Item(name="Aged Brie", sell_in=2, quality=51), Item(name="Aged Brie", sell_in=2, quality=-1), Item(name="Sulfuras, Hand of Ragnaros", sell_in=-1, quality=-5)]
-        gilded = GildedRose(items)
-        gilded.update_quality()
 
 def test_quality_never_negative():
     '''Tests that the quality of an item never falls below zero'''
