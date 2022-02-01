@@ -23,7 +23,7 @@ class GildedRose(object):
 
             '''Update item quality'''
             if "Aged Brie" not in item.name and "Sulfuras" not in item.name and "Backstage" not in item.name:
-                if item.sell_in < 0:
+                if item.sell_in < 0 or "Conjured" in item.name:
                     item.quality -= 2
                 elif item.sell_in >= 0:
                     item.quality -= 1
@@ -32,7 +32,7 @@ class GildedRose(object):
 
             '''Aged Brie quality'''
             if "Aged Brie" in item.name:
-                if item.quality >= 50:
+                if item.quality == 50:
                     item.quality = item.quality
                 elif item.quality < 50:
                     item.quality += 1 
@@ -53,7 +53,7 @@ class GildedRose(object):
                     item.quality = 0
             elif "Backstage" in item.name and item.quality >= 50:
                 item.quality = 50
-              
+            
             '''Update items sell_in'''
             if "Sulfuras" in item.name:
                 item.sell_in = None
