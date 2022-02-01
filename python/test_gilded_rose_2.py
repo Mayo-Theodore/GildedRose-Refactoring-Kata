@@ -15,8 +15,8 @@ def new_list_of_items():
              Item(name="+5 Dexterity Vest", sell_in=10, quality=20),
              Item(name="Aged Brie", sell_in=2, quality=0),
              Item(name="Elixir of the Mongoose", sell_in=5, quality=7),
-             Item(name="Sulfuras, Hand of Ragnaros", sell_in=0, quality=80),
-             Item(name="Sulfuras, Hand of Ragnaros", sell_in=-1, quality=80),
+             Item(name="Sulfuras, Hand of Ragnaros", sell_in=0, quality=50),
+             Item(name="Sulfuras, Hand of Ragnaros", sell_in=-1, quality=0),
              Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=15, quality=20),
              Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=49),
              Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=49),
@@ -38,17 +38,69 @@ def test_items_in_gilded_rose(gilded_rose, new_list_of_items):
     assert gilded_rose.items == new_list_of_items
     assert gilded_rose.items[0].quality == 20
 
+def test_sell_in_date_decreases(gilded_rose):
+    '''Tests that sell in date decreases after update quality '''
+    gilded_rose.update_quality()
+    assert gilded_rose.items[0].sell_in == 9
+    assert gilded_rose.items[1].sell_in == 1
+    assert gilded_rose.items[3].sell_in == 0
+    assert gilded_rose.items[4].sell_in == -1
 
 def test_quality_decreases_faster_after_sell_by():
     '''Tests item quality decreases twice as fast after sell by date'''
-    items = [Item(name="+5 Dexterity Vest", sell_in=0, quality=20), Item(name="+5 Dexterity Vest", sell_in=10, quality=20)]
+    items = [Item(name="+5 Dexterity Vest", sell_in=0, quality=20), Item(name="+5 Dexterity Vest", sell_in=10, quality=20), Item(name="Elixir of the Mongoose", sell_in=0, quality=7)]
     gilded = GildedRose(items)
     gilded.update_quality()
     assert gilded.items[0].quality == 18
     assert gilded.items[1].quality == 19
+    assert gilded.items[2].quality == 5
 
-   
+def test_aged_brie_increases_quality(gilded_rose):
+    '''Tests that aged brie increases in quality'''
+    gilded_rose.update_quality()
+    assert gilded_rose.items[1].quality == 1
 
-# Once the sell by date has passed, Quality degrades twice as fast
+def test_quality_never_negative():
+    '''Tests that the quality of an item never falls below zero'''
+    items = [Item(name="+5 Dexterity Vest", sell_in=10, quality=0), Item(name="Elixir of the Mongoose", sell_in=5, quality=0)]
+    gilded = GildedRose(items)
+    gilded.update_quality()
+    assert gilded.items[0].quality == 0
+    assert gilded.items[1].quality == 0
+
+def test_quality_limit():
+    '''Tests that the quality never increases above 50'''
+    items = [Item(name="Aged Brie", sell_in=2, quality=50)]
+    gilded = GildedRose(items)
+    gilded.update_quality()
+    assert gilded.items[0].quality == 50
+
+def test_sulfuras():
+    '''Tests sulfuras quality does not decrease'''
+    items = [Item(name="Sulfuras, Hand of Ragnaros", sell_in=0, quality=0),
+             Item(name="Sulfuras, Hand of Ragnaros", sell_in=-1, quality=50)]
+    gilded = GildedRose(items)
+    gilded.update_quality()
+    assert gilded.items[0].quality == 0
+    assert gilded.items[1].quality == 50
+
+def test_backstage_passes():
+    '''Tests quality of backstage passes at different sell in times'''
+    items = [Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=15, quality=20),
+             Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=20),
+             Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=20),
+             Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=0, quality=20),
+             Item(name="Backstage passes to a TAFKAL80ETC concert", sell_in=-1, quality=20) ]     
+    gilded = GildedRose(items)
+    gilded.update_quality()
+    assert gilded.items[0].quality == 21
+    assert gilded.items[1].quality == 22
+    assert gilded.items[2].quality == 23
+    assert gilded.items[3].quality == 0
+    assert gilded.items[4].quality == 0
+
+
+
+
 
 
