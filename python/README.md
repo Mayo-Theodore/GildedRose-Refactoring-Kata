@@ -14,6 +14,7 @@ Technologies: This project was completed using Python, and the tests were writte
 * “Sulfuras”, being a legendary item, never has to be sold or decreases in Quality
 * “Backstage passes”, like Aged Brie, increases in Quality as it’s Sell In value approaches; Quality increases by 2 when there are 10 days or less and by 3 when there are 5 days or less but Quality drops to 0 after the concert
 * “Conjured” items degrade in Quality twice as fast as normal items
+
 ## Usage
 Clone this repo, to ensure you have the files saved to your system
 ```python
@@ -33,6 +34,7 @@ Make sure you are in the directory that contains the "test_gilded_rose.py" file,
 ```bash
 #Install pytest
 pip install pytest
+pip install pytest-mock
 
 # Run tests
 pytest
